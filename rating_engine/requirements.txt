@@ -1,0 +1,5 @@
+statsbombpy>=1.0.3
+pandas>=2.0.0
+numpy>=1.26.0
+networkx>=3.2.0
+scipy>=1.11.0

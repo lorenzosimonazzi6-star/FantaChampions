@@ -1,0 +1,9 @@
+{
+  "name": "fantamondiale",
+  "version": "1.0.0",
+  "description": "FantaMondiale 2026",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "web-push": "^3.6.7"
+  }
+}
