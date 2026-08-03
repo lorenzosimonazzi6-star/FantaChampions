@@ -1518,7 +1518,7 @@ function renderAdmin(){
   if(banner&&currentLegaId){
     const link=`${location.origin}${location.pathname}?lega=${currentLegaId}`;
     const nome=currentLegaMeta?.nome||currentLegaId;
-    const waMsg=encodeURIComponent(`🏆 Entra nella mia lega Fantasy Arena "${nome}" per i Mondiali 2026!\n👉 ${link}`);
+    const waMsg=encodeURIComponent(`🏆 Entra nella mia lega ArenaUCL "${nome}" per la Champions League 2026/27!\n👉 ${link}`);
     banner.innerHTML=`
       <span>🏆 <strong>${nome}</strong> · <span style="font-size:11px;opacity:.7">${currentLegaId}</span></span>
       <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
@@ -1530,7 +1530,7 @@ function renderAdmin(){
           WhatsApp
         </a>
         ${navigator.share ? `<button class="btn-sec" style="font-size:11px;padding:3px 10px"
-          onclick="navigator.share({title:'Fantasy Arena – ${nome}',text:'Entra nella mia lega Fantasy Arena per i Mondiali 2026!',url:'${link}'}).catch(()=>{})">↗ Condividi</button>` : ''}
+          onclick="navigator.share({title:'ArenaUCL – ${nome}',text:'Entra nella mia lega ArenaUCL per la Champions League 2026/27!',url:'${link}'}).catch(()=>{})">↗ Condividi</button>` : ''}
       </div>`;
     banner.style.display="flex";
   }
@@ -3277,7 +3277,7 @@ function renderHomeCreateForm() {
       if (result) {
         const {legaId,meta} = result;
         const link = `${location.origin}${location.pathname}?lega=${legaId}`;
-        const waMsg = encodeURIComponent(`🏆 Ho creato la lega "${nome}" su Fantasy Arena per i Mondiali 2026!\nEntra qui 👉 ${link}`);
+        const waMsg = encodeURIComponent(`🏆 Ho creato la lega "${nome}" su ArenaUCL per la Champions League 2026/27!\nEntra qui 👉 ${link}`);
         res.style.color="var(--green)";
         res.innerHTML=`
           <div style="margin-bottom:8px">✓ Lega <strong>${legaId}</strong> creata!</div>
