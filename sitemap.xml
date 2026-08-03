@@ -5,43 +5,43 @@
 
   <!-- Home -->
   <url>
-    <loc>https://arenaucl.fantaarena.it/</loc>
+    <loc>https://fantaarena.it/champions/</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="it" href="https://arenaucl.fantaarena.it/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://arenaucl.fantaarena.it/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://arenaucl.fantaarena.it/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://fantaarena.it/champions/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fantaarena.it/champions/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fantaarena.it/champions/"/>
   </url>
 
   <!-- Privacy Policy -->
   <url>
-    <loc>https://arenaucl.fantaarena.it/privacy.html</loc>
+    <loc>https://fantaarena.it/champions/privacy.html</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="it" href="https://arenaucl.fantaarena.it/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://arenaucl.fantaarena.it/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://fantaarena.it/champions/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fantaarena.it/champions/privacy.html"/>
   </url>
 
   <!-- Cookie Policy -->
   <url>
-    <loc>https://arenaucl.fantaarena.it/cookie-policy.html</loc>
+    <loc>https://fantaarena.it/champions/cookie-policy.html</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="it" href="https://arenaucl.fantaarena.it/cookie-policy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://arenaucl.fantaarena.it/cookie-policy.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://fantaarena.it/champions/cookie-policy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fantaarena.it/champions/cookie-policy.html"/>
   </url>
 
   <!-- Termini e Condizioni -->
   <url>
-    <loc>https://arenaucl.fantaarena.it/termini.html</loc>
+    <loc>https://fantaarena.it/champions/termini.html</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="it" href="https://arenaucl.fantaarena.it/termini.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://arenaucl.fantaarena.it/termini.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://fantaarena.it/champions/termini.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fantaarena.it/champions/termini.html"/>
   </url>
 
 </urlset>

@@ -1,13 +1,13 @@
 // ============================================================
 // FANTASY ARENA — cookie-banner.js
 // GDPR cookie consent banner
-// Consenso salvato in localStorage: "fa_cookie_consent"
+// Consenso salvato in localStorage: "ucl_cookie_consent"
 //   "accepted" → analytics attivi
 //   "rejected" → solo cookie tecnici
 // ============================================================
 
 (function () {
-  const STORAGE_KEY = "fa_cookie_consent";
+  const STORAGE_KEY = "ucl_cookie_consent";
   const consent = localStorage.getItem(STORAGE_KEY);
 
   // Se ha già scelto, aggiorna il consenso GA4 e non mostrare il banner
@@ -41,7 +41,7 @@
         <div style="flex:1;min-width:220px;color:#a0aec0;line-height:1.5">
           🍪 Usiamo cookie tecnici necessari al funzionamento e, con il tuo consenso,
           cookie analitici (Google Analytics) per migliorare il servizio.
-          <a href="/cookie-policy.html" style="color:#818cf8;text-decoration:none;white-space:nowrap"> Cookie Policy</a>
+          <a href="cookie-policy.html" style="color:#818cf8;text-decoration:none;white-space:nowrap"> Cookie Policy</a>
         </div>
         <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap">
           <button id="cookieReject" style="

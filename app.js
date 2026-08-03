@@ -125,8 +125,8 @@ function isClubEliminato(club, forGiornata) {
 function isNazioneEliminata(naz, forGiornata) { return isClubEliminato(naz, forGiornata); }
 function sanitizeState(s){return sanitizeLegaState(s);}
 
-function loadLegaState(id){try{const r=localStorage.getItem("fm_lega_"+id);if(r)return sanitizeLegaState(JSON.parse(r));}catch(e){}return defaultLegaState();}
-function loadGlobalState(){try{const r=localStorage.getItem("fm_global");if(r)return sanitizeGlobalState(JSON.parse(r));}catch(e){}return defaultGlobalState();}
+function loadLegaState(id){try{const r=localStorage.getItem("ucl_lega_"+id);if(r)return sanitizeLegaState(JSON.parse(r));}catch(e){}return defaultLegaState();}
+function loadGlobalState(){try{const r=localStorage.getItem("ucl_global");if(r)return sanitizeGlobalState(JSON.parse(r));}catch(e){}return defaultGlobalState();}
 function loadState(){return defaultLegaState();}
 
 let state=defaultLegaState();
@@ -137,13 +137,13 @@ let sortBy="totale";
 
 function saveState(){
   state._updatedAt=Date.now();
-  if(currentLegaId){try{localStorage.setItem("fm_lega_"+currentLegaId,JSON.stringify(state));}catch(e){}syncLegaToFirebase();}
+  if(currentLegaId){try{localStorage.setItem("ucl_lega_"+currentLegaId,JSON.stringify(state));}catch(e){}syncLegaToFirebase();}
 }
 function saveGlobalState(){
   globalState._updatedAt=Date.now();
-  try{localStorage.setItem("fm_global",JSON.stringify(globalState));}catch(e){}syncGlobalToFirebase();
+  try{localStorage.setItem("ucl_global",JSON.stringify(globalState));}catch(e){}syncGlobalToFirebase();
 }
-function saveLocalOnly(){if(currentLegaId)try{localStorage.setItem("fm_lega_"+currentLegaId,JSON.stringify(state));}catch(e){}}
+function saveLocalOnly(){if(currentLegaId)try{localStorage.setItem("ucl_lega_"+currentLegaId,JSON.stringify(state));}catch(e){}}
 
 // ── HASH ─────────────────────────────────────────────────────
 async function sha256(str) {
@@ -204,7 +204,7 @@ function listenGlobal(){
     const d=snap.val();if(!d)return;
     if((d._updatedAt||0)<=(globalState._updatedAt||0))return;
     globalState=sanitizeGlobalState(d);
-    localStorage.setItem("fm_global",JSON.stringify(globalState));
+    localStorage.setItem("ucl_global",JSON.stringify(globalState));
     renderPage(currentPage());showSyncBar("🔄 Dati aggiornati",2000);
   });
 }
@@ -228,7 +228,7 @@ function _fbReattach(){
   // Rileggi da localStorage (cache locale) + riaggiancia i listener live
   if(currentLegaId){
     try{
-      const cached=localStorage.getItem("fm_lega_"+currentLegaId);
+      const cached=localStorage.getItem("ucl_lega_"+currentLegaId);
       if(cached){const d=JSON.parse(cached);if((d._updatedAt||0)>=(state._updatedAt||0))state=sanitizeLegaState(d);}
     }catch(e){}
   }
@@ -248,7 +248,7 @@ window.addEventListener("pageshow", e => { if(e.persisted) _fbReattach(); });
 
 
 function saveLocalOnly() {
-  try { localStorage.setItem("fantasy_arena_v1", JSON.stringify(state)); } catch(e){}
+  try { localStorage.setItem("ucl_state_v1", JSON.stringify(state)); } catch(e){}
 }
 
 let syncBarTimer;
@@ -276,7 +276,7 @@ function currentPage() { return _currentPage; }
 
 function navigate(page){
   _currentPage=page;
-  if(currentLegaId) localStorage.setItem("fm_tab", page);
+  if(currentLegaId) localStorage.setItem("ucl_tab", page);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   const el=document.getElementById("page-"+page);
@@ -1570,7 +1570,7 @@ async function sendAdminPush(title, body) {
   if (resEl) resEl.textContent = "";
 
   try {
-    const res = await fetch("/.netlify/functions/push-send", {
+    const res = await fetch(".netlify/functions/push-send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -2282,7 +2282,7 @@ async function subscribeToPush() {
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
     });
-    const res = await fetch("/.netlify/functions/push-subscribe", {
+    const res = await fetch(".netlify/functions/push-subscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ subscription: sub.toJSON(), legaId: currentLegaId, uid: currentUser.uid })
@@ -3321,7 +3321,7 @@ function exitLega() {
   _playerRoseState = {};
   adminUnlocked = false; votiUnlocked = false; superadminUnlocked = false;
   aggiornaTabAdmin();
-  localStorage.removeItem("fm_lastLega"); localStorage.removeItem("fm_lastLegaMeta");
+  localStorage.removeItem("ucl_lastLega"); localStorage.removeItem("ucl_lastLegaMeta");
   history.pushState(null, '', location.pathname);
   // Hide nav tabs (keep logo and sidebar btn)
   document.querySelector(".nav-links")?.style && (document.querySelector(".nav-links").style.display="none");
@@ -3550,8 +3550,8 @@ function renderSuperadminPage() {
     if (!confirm("Eliminare TUTTE le leghe?")) return;
     if (!window._fbReady || !window._db) return;
     await window._set(window._ref(window._db, "leghe"), null);
-    Object.keys(localStorage).filter(k => k.startsWith("fm_lega_")).forEach(k => localStorage.removeItem(k));
-    localStorage.removeItem("fm_lastLega"); localStorage.removeItem("fm_lastLegaMeta");
+    Object.keys(localStorage).filter(k => k.startsWith("ucl_lega_")).forEach(k => localStorage.removeItem(k));
+    localStorage.removeItem("ucl_lastLega"); localStorage.removeItem("ucl_lastLegaMeta");
     toast("Leghe eliminate."); renderSuperadminPage();
   });
   document.getElementById("btnDelAll")?.addEventListener("click", async () => {
@@ -3941,7 +3941,7 @@ async function importFromSofascore(eventId, home, away, gId, btnEl) {
   btnEl.textContent = "⏳ Importo...";
 
   try {
-    const res = await fetch(`/.netlify/functions/sofascore-proxy?eventId=${eventId}&home=${encodeURIComponent(home)}&away=${encodeURIComponent(away)}`);
+    const res = await fetch(`.netlify/functions/sofascore-proxy?eventId=${eventId}&home=${encodeURIComponent(home)}&away=${encodeURIComponent(away)}`);
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.error || `HTTP ${res.status}`);
@@ -4001,7 +4001,7 @@ async function migraNomiRose() {
   if (resultEl) resultEl.textContent = "";
 
   try {
-    const res = await fetch("/.netlify/functions/migrate-rose", { method: "POST" });
+    const res = await fetch(".netlify/functions/migrate-rose", { method: "POST" });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
     const msg = `✅ ${data.totalUpdated} nomi aggiornati su ${data.totalChecked} giocatori controllati.`;
@@ -4191,9 +4191,9 @@ function aggiornaTabAdmin() {
 function entraInLega(legaId, legaState, legaMeta) {
   currentLegaId = legaId; currentLegaMeta = legaMeta || null;
   state = sanitizeLegaState(legaState);
-  localStorage.setItem("fm_lega_" + legaId, JSON.stringify(state));
-  localStorage.setItem("fm_lastLega", legaId);
-  if (legaMeta) localStorage.setItem("fm_lastLegaMeta", JSON.stringify(legaMeta));
+  localStorage.setItem("ucl_lega_" + legaId, JSON.stringify(state));
+  localStorage.setItem("ucl_lastLega", legaId);
+  if (legaMeta) localStorage.setItem("ucl_lastLegaMeta", JSON.stringify(legaMeta));
   // Update URL
   history.pushState(null, '', '?lega=' + legaId);
   const navLinks = document.querySelector(".nav-links");
@@ -4215,7 +4215,7 @@ function entraInLega(legaId, legaState, legaMeta) {
   subscribePlayerSostituzioni(legaId);
   subscribePlayerRose(legaId);
   if (currentUser) _ensureMyMembership();
-  const savedTab = localStorage.getItem("fm_tab");
+  const savedTab = localStorage.getItem("ucl_tab");
   navigate(savedTab && savedTab !== "home" ? savedTab : "home");
   initPushBtn();
 }
@@ -4227,8 +4227,8 @@ function exitLega() {
   _playerRoseState = {};
   adminUnlocked = false; votiUnlocked = false; superadminUnlocked = false;
   aggiornaTabAdmin();
-  localStorage.removeItem("fm_lastLega"); localStorage.removeItem("fm_lastLegaMeta");
-  localStorage.removeItem("fm_tab");
+  localStorage.removeItem("ucl_lastLega"); localStorage.removeItem("ucl_lastLegaMeta");
+  localStorage.removeItem("ucl_tab");
   history.pushState(null, '', location.pathname);
   const navLinks = document.querySelector(".nav-links");
   const hamburger = document.getElementById("hamburger");
@@ -4382,7 +4382,7 @@ function renderLobby() {
       if (res.error) { err.textContent = res.error; return; }
       // onAuthStateChanged will re-render lobby with user's leghe
       // If user has a last lega, auto-enter it
-      const lastLega = localStorage.getItem("fm_lastLega");
+      const lastLega = localStorage.getItem("ucl_lastLega");
       if (lastLega && window._fbReady && window._db) {
         window._onVal(window._ref(window._db,"leghe/"+lastLega), snap=>{
           const d=snap.val();
@@ -4521,10 +4521,10 @@ function checkUrlLega() {
     }, { onlyOnce: true });
     return true;
   }
-  const lastLega = localStorage.getItem("fm_lastLega");
+  const lastLega = localStorage.getItem("ucl_lastLega");
   if (lastLega) {
-    const cached = localStorage.getItem("fm_lega_" + lastLega);
-    const cachedMeta = localStorage.getItem("fm_lastLegaMeta");
+    const cached = localStorage.getItem("ucl_lega_" + lastLega);
+    const cachedMeta = localStorage.getItem("ucl_lastLegaMeta");
     if (cached) {
       try {
         entraInLega(lastLega, JSON.parse(cached), cachedMeta ? JSON.parse(cachedMeta) : null);
@@ -4599,7 +4599,7 @@ function startApp() {
       const d=snap.val();
       if(d&&(d._updatedAt||0)>(globalState._updatedAt||0)){
         globalState=sanitizeGlobalState(d);
-        localStorage.setItem("fm_global",JSON.stringify(globalState));
+        localStorage.setItem("ucl_global",JSON.stringify(globalState));
       }
       if(!checkUrlLega()){
         renderHomeButtons();

@@ -379,7 +379,7 @@ const TRANSLATIONS = {
 
 // ── Helper functions ─────────────────────────────────────────
 
-let currentLang = localStorage.getItem("fa_lang") || "it";
+let currentLang = localStorage.getItem("ucl_lang") || "it";
 
 function t(key) {
   const keys = key.split(".");
@@ -393,7 +393,7 @@ function t(key) {
 
 function setLang(lang) {
   currentLang = lang;
-  localStorage.setItem("fa_lang", lang);
+  localStorage.setItem("ucl_lang", lang);
   document.documentElement.lang = lang;
   applyTranslations();
   // Re-render current page to update dynamic content

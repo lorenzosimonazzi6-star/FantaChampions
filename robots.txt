@@ -6,4 +6,4 @@ Disallow: /.env
 Disallow: /node_modules/
 
 # Sitemap
-Sitemap: https://arenaucl.fantaarena.it/sitemap.xml
+Sitemap: https://fantaarena.it/champions/sitemap.xml

@@ -6,22 +6,24 @@
 // invalidare la cache vecchia.
 // ============================================================
 
-const CACHE_VERSION = "fc-v3";
+const CACHE_VERSION = "fc-v4";
 const CACHE_STATIC = CACHE_VERSION + "-static";
 
 // Asset statici da pre-cachare al momento dell'install
+// Path relativi: risolti rispetto alla posizione del SW.
+// Standalone (SW in /sw.js) → root; sotto proxy (/champions/sw.js) → /champions/
 const PRECACHE_ASSETS = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/app.js",
-  "/i18n.js",
-  "/matches.js",
-  "/cookie-banner.js",
-  "/manifest.json",
-  "/favicon.svg",
-  "/logo.png",
-  "/og-image.svg"
+  "./",
+  "index.html",
+  "style.css",
+  "app.js",
+  "i18n.js",
+  "matches.js",
+  "cookie-banner.js",
+  "manifest.json",
+  "favicon.svg",
+  "logo.png",
+  "og-image.svg"
 ];
 
 // ── Install: pre-cacha asset statici ──────────────────────
@@ -111,9 +113,9 @@ self.addEventListener("push", event => {
   const title = data.title || "Fantasy Arena";
   const options = {
     body: data.body || "Novità nella tua lega!",
-    icon: "/logo.png",
-    badge: "/favicon.svg",
-    data: { url: data.url || "/" },
+    icon: "logo.png",
+    badge: "favicon.svg",
+    data: { url: data.url || "./" },
     vibrate: [100, 50, 100],
   };
   event.waitUntil(self.registration.showNotification(title, options));
@@ -121,6 +123,6 @@ self.addEventListener("push", event => {
 
 self.addEventListener("notificationclick", event => {
   event.notification.close();
-  const url = event.notification.data?.url || "/";
+  const url = event.notification.data?.url || "./";
   event.waitUntil(clients.openWindow(url));
 });
