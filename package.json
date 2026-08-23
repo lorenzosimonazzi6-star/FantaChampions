@@ -1,7 +1,7 @@
 {
-  "name": "fantamondiale",
+  "name": "fantachampions",
   "version": "1.0.0",
-  "description": "FantaMondiale 2026",
+  "description": "ArenaUCL — Fantasy UEFA Champions League 2026/27",
   "dependencies": {
     "firebase-admin": "^12.0.0",
     "web-push": "^3.6.7"
