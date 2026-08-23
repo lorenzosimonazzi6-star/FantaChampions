@@ -79,7 +79,7 @@ function getFlagsForRuolo(ruolo) {
 }
 
 // ── STATE ────────────────────────────────────────────────────
-function defaultLegaState(){return{partecipanti:[],rose:{},giocatoriSquadra:{},sostituzioni:{},pwdHash:null,_updatedAt:0};}
+function defaultLegaState(){return{partecipanti:[],rose:{},giocatoriSquadra:{},sostituzioni:{},pwdHash:null,deadline:null,_updatedAt:0};}
 function defaultGlobalState(){return{voti:{},giornataCorrente:"1",giocatoriSquadra:{},clubEliminati:{},_updatedAt:0};}
 function defaultState(){return defaultLegaState();}
 
@@ -1540,6 +1540,7 @@ function renderAdmin(){
   renderPartecipantiList();
   renderCapitanoForm();
   renderSostituzioni();
+  renderAdminDeadline();
   populateSel("selectPartecipanteImport",state.partecipanti,"nome","id","– Seleziona –","");
   renderRoseStatus();
   loadPushSubCount();
@@ -1603,6 +1604,24 @@ function renderGiornataCorrenteAdmin() {
   sel.value = globalState.giornataCorrente || "1";
 }
 
+function renderAdminDeadline(){
+  const inp = document.getElementById("adminDeadlineInput");
+  const st  = document.getElementById("adminDeadlineStatus");
+  if(!inp) return;
+  const dl = state?.deadline;
+  if(dl){
+    const d = new Date(dl);
+    const pad = n => String(n).padStart(2,'0');
+    inp.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    if(st) st.textContent = isDeadlinePassata()
+      ? `🔒 Deadline superata (${d.toLocaleString('it-IT')}): rose bloccate, solo sostituzioni.`
+      : `⏳ Deadline: ${d.toLocaleString('it-IT')} — rose modificabili fino ad allora.`;
+  } else {
+    inp.value = "";
+    if(st) st.textContent = "Nessuna scadenza impostata: le rose sono sempre modificabili.";
+  }
+}
+
 function resetPartecipantiERose() {
   if (!confirm("⚠️ Sei sicuro? Verranno eliminati TUTTI i partecipanti, le rose e i giocatori nel tab Voti. I voti inseriti rimarranno.")) return;
   state.partecipanti = [];
@@ -1640,6 +1659,16 @@ async function eliminaLega() {
 document.addEventListener("click", e => {
   if (e.target && e.target.id === "btnResetPartecipanti") resetPartecipantiERose();
   if (e.target && e.target.id === "btnEliminaLega") eliminaLega();
+  if (e.target && e.target.id === "btnSalvaDeadline") {
+    const inp = document.getElementById("adminDeadlineInput");
+    if (!inp || !inp.value) { toast("Inserisci una data/ora.", true); return; }
+    state.deadline = new Date(inp.value).toISOString();
+    saveState(); renderAdminDeadline(); toast("Deadline salvata.");
+  }
+  if (e.target && e.target.id === "btnRimuoviDeadline") {
+    state.deadline = null;
+    saveState(); renderAdminDeadline(); toast("Deadline rimossa: rose sempre modificabili.");
+  }
   if (e.target && e.target.id === "btnSendPush") sendAdminPush();
   if (e.target && e.target.id === "btnPushPresetVoti") {
     const gLabel = GIORNATE[globalState.giornataCorrente || "1"];
@@ -4711,7 +4740,11 @@ const DEADLINE_ISO   = "2026-09-16T18:00:00Z"; // prima della prima partita UCL 
 const FINALE_ISO     = "2027-05-30T06:00:00Z"; // dopo la finale UCL (≈ 29 maggio 2027 ore 21 CEST)
 
 function isDeadlinePassata() {
-  return Date.now() >= new Date(DEADLINE_ISO).getTime();
+  // Deadline impostata dall'admin di lega (state.deadline). Se assente, la rosa
+  // è sempre creabile/modificabile. Le finestre di sostituzione restano invariate.
+  const dl = (typeof state !== "undefined" && state) ? state.deadline : null;
+  if (!dl) return false;
+  return Date.now() >= new Date(dl).getTime();
 }
 function isFinalePassata() {
   return Date.now() >= new Date(FINALE_ISO).getTime();
@@ -5555,7 +5588,7 @@ function _startTimer() {
   const wrap = document.getElementById("squadraTimerWrap");
   if (!wrap) return;
 
-  const deadlineMs = new Date(DEADLINE_ISO).getTime();
+  const deadlineMs = (state && state.deadline) ? new Date(state.deadline).getTime() : null;
 
   function fmtDiff(diff) {
     const days  = Math.floor(diff / 86400000);
@@ -5570,6 +5603,12 @@ function _startTimer() {
 
   function updateTimer() {
     const now = Date.now();
+
+    // Nessuna deadline impostata: rose sempre aperte
+    if (!deadlineMs) {
+      wrap.innerHTML = `<div class="squadra-timer active">🔓 Iscrizioni aperte</div>`;
+      return;
+    }
 
     // Prima della deadline iscrizioni: countdown classico
     if (now < deadlineMs) {
