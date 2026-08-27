@@ -48,7 +48,7 @@ const TRANSLATIONS = {
       keeper_title: "Portieri",
       keeper_text: "La porta inviolata conferisce un fantastico <strong>+2</strong>. Rigore parato <strong>+3</strong>. Ogni gol subito vale <strong>−1</strong>. Prenderai un portiere di un top club europeo?",
       subs_title: "Sostituzioni",
-      subs_text: "Hai a disposizione <strong>8 sostituzioni totali</strong> (al massimo <strong>2 per ruolo</strong>) da usare nelle <strong>4 finestre disponibili durante la League Phase</strong>. Il giocatore entrante deve avere lo <strong>stesso ruolo e lo stesso club</strong> di quello uscente. <strong>Il capitano non può essere sostituito.</strong><br>Le finestre si aprono dopo le Giornate 2, 4, 6 e 8. <strong>Nessun cambio è possibile dalla fase a eliminazione diretta in avanti.</strong>",
+      subs_text: "Hai a disposizione <strong>10 sostituzioni totali</strong>, <strong>senza vincoli di ruolo</strong>, da usare a tua discrezione nelle <strong>8 finestre</strong> della fase campionato (tutte insieme o distribuite). Ogni sostituzione dev'essere <strong>stesso club e stesso ruolo</strong>. <strong>Il capitano non può essere sostituito.</strong><br>Una finestra si apre dopo ogni giornata (dal giorno successivo fino all'inizio della prima partita della giornata seguente). Le sostituzioni fatte dopo la Giornata N valgono <strong>dalla Giornata N+1</strong> in poi.",
       votes_title: "Voti",
       votes_text: "La redazione di riferimento per voti ed eventuali bonus e malus sarà quella di Sofascore.com; ricordo che lo standard della redazione per una prestazione \"normale\" è di 6.5."
     },
@@ -113,7 +113,7 @@ const TRANSLATIONS = {
       captains: "Capitani",
       captains_desc: "Imposta il capitano (+2 pt se voto ≥ 7, non attaccanti).",
       subs: "Sostituzioni",
-      subs_desc: "8 sostituzioni totali • al massimo 2 per ruolo • stesso ruolo e stesso club.",
+      subs_desc: "10 sostituzioni totali • nessun limite di ruolo • stesso ruolo e stesso club • 8 finestre (una dopo ogni giornata).",
       danger: "Zona Pericolosa",
       danger_text: "Questa azione è irreversibile. La lega, tutti i partecipanti, le rose e i voti verranno eliminati definitivamente.",
       delete_league: "Elimina questa Lega"
@@ -234,7 +234,7 @@ const TRANSLATIONS = {
       keeper_title: "Goalkeepers",
       keeper_text: "A clean sheet earns a fantastic <strong>+2</strong> bonus. Penalty saved <strong>+3</strong>. Every goal conceded is <strong>−1</strong>. Will you pick a goalkeeper from a top European club?",
       subs_title: "Substitutions",
-      subs_text: "You have <strong>8 total substitutions</strong> (at most <strong>2 per position</strong>) to use in the <strong>4 windows available during the League Phase</strong>. The incoming player must have the <strong>same position and the same club</strong> as the outgoing one. <strong>The captain cannot be substituted.</strong><br>Windows open after Matchdays 2, 4, 6 and 8. <strong>No changes are allowed from the knockout stage onwards.</strong>",
+      subs_text: "You have <strong>10 total substitutions</strong>, <strong>with no position limits</strong>, to use as you like across the <strong>8 windows</strong> of the league phase (all at once or spread out). Each substitution must be <strong>same club and same position</strong>. <strong>The captain cannot be substituted.</strong><br>A window opens after every matchday (from the next day until the first match of the following matchday). Substitutions made after Matchday N apply <strong>from Matchday N+1</strong> onwards.",
       votes_title: "Ratings",
       votes_text: "The reference source for ratings and any bonuses/penalties is Sofascore.com. The standard rating for a \"normal\" performance is 6.5."
     },
@@ -299,7 +299,7 @@ const TRANSLATIONS = {
       captains: "Captains",
       captains_desc: "Set the captain (+2 pts if rating ≥ 7, no forwards).",
       subs: "Substitutions",
-      subs_desc: "8 total substitutions • at most 2 per position • same role and same club.",
+      subs_desc: "10 total substitutions • no position limit • same position and club • 8 windows (one after each matchday).",
       danger: "Danger Zone",
       danger_text: "This action is irreversible. The league, all participants, squads and ratings will be permanently deleted.",
       delete_league: "Delete this League"

@@ -2371,23 +2371,32 @@ async function initPushBtn() {
 
 // ── SOSTITUZIONI ─────────────────────────────────────────────
 const FINESTRE = [
-  { id:1, label:"Finestra 1", desc:"Dopo G2 · prima di G3 (ottobre 2026)" },
-  { id:2, label:"Finestra 2", desc:"Dopo G4 · prima di G5 (novembre 2026)" },
-  { id:3, label:"Finestra 3", desc:"Dopo G6 · prima di G7 (dicembre 2026)" },
-  { id:4, label:"Finestra 4", desc:"Dopo G8 · prima dei Playoff (febbraio 2027)" },
+  { id:1, label:"Finestra 1", desc:"Dopo G1 · prima di G2 (ott 2026)" },
+  { id:2, label:"Finestra 2", desc:"Dopo G2 · prima di G3 (ott 2026)" },
+  { id:3, label:"Finestra 3", desc:"Dopo G3 · prima di G4 (nov 2026)" },
+  { id:4, label:"Finestra 4", desc:"Dopo G4 · prima di G5 (nov 2026)" },
+  { id:5, label:"Finestra 5", desc:"Dopo G5 · prima di G6 (dic 2026)" },
+  { id:6, label:"Finestra 6", desc:"Dopo G6 · prima di G7 (gen 2027)" },
+  { id:7, label:"Finestra 7", desc:"Dopo G7 · prima di G8 (gen 2027)" },
+  { id:8, label:"Finestra 8", desc:"Dopo G8 · prima dei Playoff (feb 2027)" },
 ];
-const MAX_SOST_TOTALI   = 8;
-const MAX_SOST_PER_RUOLO = 2;
+const MAX_SOST_TOTALI   = 10;
+const MAX_SOST_PER_RUOLO = 99; // nessun vincolo di ruolo sulle sostituzioni
 
-// Timing finestre: open = kickoff prima partita giornata N (UTC)
-//                 close = kickoff prima partita giornata N+1 (UTC)
-// Le sostituzioni effettuate nella finestra N valgono dalla giornata N+1 in poi
-// Date approssimate UCL 2026/27 — da aggiornare con il calendario ufficiale
+// Timing finestre: si aprono il giorno dopo la fine di una giornata e chiudono
+// all'inizio della prima partita della giornata successiva (UTC).
+// La sostituzione fatta nella finestra N vale dalla giornata N+1 in poi.
+// UCL 2026/27 — fase campionato: G1 8-10/9, G2 13-14/10, G3 20-21/10, G4 3-4/11,
+// G5 24-25/11, G6 8-9/12, G7 19-20/1, G8 27/1; Playoff dal 16/2.
 const FINESTRE_TIMING = {
-  1: { open: "2026-10-02T22:00:00Z", close: "2026-10-21T18:00:00Z", label: "Finestra 1" }, // dopo G2, prima di G3
-  2: { open: "2026-11-06T22:00:00Z", close: "2026-11-25T18:00:00Z", label: "Finestra 2" }, // dopo G4, prima di G5
-  3: { open: "2026-12-11T22:00:00Z", close: "2027-01-20T18:00:00Z", label: "Finestra 3" }, // dopo G6, prima di G7
-  4: { open: "2027-02-12T22:00:00Z", close: "2027-02-17T18:00:00Z", label: "Finestra 4" }, // dopo G8, prima dei Playoff
+  1: { open: "2026-09-10T22:00:00Z", close: "2026-10-13T16:45:00Z", label: "Finestra 1" }, // dopo G1
+  2: { open: "2026-10-14T22:00:00Z", close: "2026-10-20T16:45:00Z", label: "Finestra 2" }, // dopo G2
+  3: { open: "2026-10-21T22:00:00Z", close: "2026-11-03T16:45:00Z", label: "Finestra 3" }, // dopo G3
+  4: { open: "2026-11-04T22:00:00Z", close: "2026-11-24T16:45:00Z", label: "Finestra 4" }, // dopo G4
+  5: { open: "2026-11-25T22:00:00Z", close: "2026-12-08T16:45:00Z", label: "Finestra 5" }, // dopo G5
+  6: { open: "2026-12-09T22:00:00Z", close: "2027-01-19T16:45:00Z", label: "Finestra 6" }, // dopo G6
+  7: { open: "2027-01-20T22:00:00Z", close: "2027-01-27T16:45:00Z", label: "Finestra 7" }, // dopo G7
+  8: { open: "2027-01-27T22:00:00Z", close: "2027-02-16T16:45:00Z", label: "Finestra 8" }, // dopo G8, prima dei Playoff
 };
 
 // Stato UI locale per sostituzioni (non salvato)
@@ -2649,20 +2658,9 @@ function renderSostituzioni() {
   // ── Finestre ──
   const finestreHtml = FINESTRE.map(f => {
     const ruoliUsatiQuesta = getRuoliUsatiInFinestra(p.id, f.id);
-    // Conta utilizzi per ruolo su TUTTE le finestre — escludi se raggiunto MAX_SOST_PER_RUOLO
-    const roleCount = {};
-    for (const f2 of FINESTRE) {
-      for (const s of (sostEffective[f2.id] || [])) {
-        roleCount[s.ruolo] = (roleCount[s.ruolo] || 0) + 1;
-      }
-    }
-    const ruoliEsclusiAdmin = new Set(
-      Object.keys(RUOLI).filter(r =>
-        ruoliUsatiQuesta.includes(r) || (roleCount[r] || 0) >= MAX_SOST_PER_RUOLO
-      )
-    );
     const ruoliUsati = ruoliUsatiQuesta; // per badge (solo questa finestra)
-    const ruoliDisp  = Object.keys(RUOLI).filter(r => !ruoliEsclusiAdmin.has(r));
+    // Nessun vincolo di ruolo: tutti i ruoli sempre disponibili (limite: 10 totali)
+    const ruoliDisp  = Object.keys(RUOLI);
     const limitRagg  = totUsate >= MAX_SOST_TOTALI;
     const key        = `${p.id}_${f.id}`;
     const isAperta   = !!_finestreAperte[key];
@@ -4853,33 +4851,10 @@ function renderSostSelfService() {
   // Form nuova sostituzione (solo se finestra aperta e rimanenti > 0, oppure in edit mode)
   let formHtml = "";
   if (finestraId && (rimanenti > 0 || editMode) && rosaBase) {
-    // Ruoli usati nella finestra corrente, escludendo quello in editing
-    const sostFinestra = mySost[finestraId] || [];
-    const ruoliUsatiQuesta = sostFinestra
-      .map((s, i) => (editMode && _sostEditMode.idx === i) ? null : s.ruolo)
-      .filter(Boolean);
-
-    // Conta utilizzi per ruolo su TUTTE le finestre — escludi se raggiunto MAX_SOST_PER_RUOLO
-    const allSostEff = getSostEffective(partId);
-    const roleCount = {};
-    for (const [, sosts] of Object.entries(allSostEff)) {
-      for (const s of (sosts || [])) {
-        roleCount[s.ruolo] = (roleCount[s.ruolo] || 0) + 1;
-      }
-    }
-
-    const ruoliEsclusi = new Set(
-      Object.keys(ROSA_REQUISITI).filter(r =>
-        ruoliUsatiQuesta.includes(r) || (roleCount[r] || 0) >= MAX_SOST_PER_RUOLO
-      )
-    );
-    const ruoliDisponibili = Object.keys(ROSA_REQUISITI)
-      .filter(r => !ruoliEsclusi.has(r));
-
-    if (ruoliDisponibili.length === 0) {
-      formHtml = `<p class="hint">Hai già usato un cambio per ogni ruolo in questa finestra.</p>`;
-    } else {
-      const ruoloOpts = ruoliDisponibili.map(r =>
+    // 10 sostituzioni totali senza vincolo di ruolo: tutti i ruoli sempre
+    // disponibili (la singola sostituzione resta comunque stesso club + stesso ruolo).
+    {
+      const ruoloOpts = Object.keys(ROSA_REQUISITI).map(r =>
         `<option value="${r}">${_ruoloIcon(r)} ${_ruoloLabel(r)}</option>`
       ).join('');
       const formTitle = editMode

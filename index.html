@@ -99,7 +99,7 @@
       "Voti e statistiche live da SofaScore",
       "Bonus e malus per ruolo",
       "Capitano con bonus speciale",
-      "4 finestre di sostituzione durante la League Phase"
+      "10 sostituzioni in 8 finestre (una dopo ogni giornata)"
     ]
   }
   </script>
@@ -355,8 +355,8 @@
               <div class="rule-card">
                 <div class="rule-icon"><span class="material-symbols-outlined">swap_horiz</span></div>
                 <h3 data-i18n="rules.subs_title">Sostituzioni</h3>
-                <p data-i18n="rules.subs_text">Hai a disposizione <strong>4 sostituzioni totali</strong> (al massimo <strong>1 per ruolo</strong>) da decidere nell'arco delle <strong>3 giornate dei gironi</strong>. Il giocatore entrante deve avere lo <strong>stesso ruolo e la stessa nazionale</strong> di quello uscente. <strong>Il capitano non può essere sostituito.</strong><br>
-                  Le sostituzioni fatte durante la <strong>Giornata 1</strong> valgono dalla Giornata 2 in poi; quelle della <strong>Giornata 2</strong> dalla Giornata 3 in poi; quelle della <strong>Giornata 3</strong> dalla fase eliminatoria in poi. <strong>Nessun cambio è possibile dalla fase eliminatoria in avanti.</strong></p>
+                <p data-i18n="rules.subs_text">Hai a disposizione <strong>10 sostituzioni totali</strong>, <strong>senza vincoli di ruolo</strong>, da usare a tua discrezione nelle <strong>8 finestre</strong> della fase campionato (tutte insieme o distribuite). Ogni sostituzione dev'essere <strong>stesso club e stesso ruolo</strong>. <strong>Il capitano non può essere sostituito.</strong><br>
+                  Una finestra si apre dopo ogni giornata (dal giorno successivo fino all'inizio della prima partita della giornata seguente). Le sostituzioni fatte dopo la Giornata N valgono <strong>dalla Giornata N+1</strong> in poi.</p>
               </div>
               <div class="rule-card">
                 <div class="rule-icon"><span class="material-symbols-outlined">assignment_turned_in</span></div>
@@ -420,26 +420,39 @@
 
           <article class="rulebook-section">
             <h2><span class="rb-num">3</span> Sostituzioni</h2>
-            <p>Hai a disposizione <strong>4 sostituzioni totali</strong> (al massimo <strong>1 per ruolo</strong>) da decidere nell'arco delle <strong>3 giornate dei gironi</strong>, con questi vincoli:</p>
+            <p>Hai a disposizione <strong>10 sostituzioni totali</strong>, <strong>senza vincoli di ruolo</strong>, da usare a tua discrezione nelle finestre: puoi farle tutte e 10 in un'unica finestra oppure distribuirle. Ogni singola sostituzione ha questi vincoli:</p>
             <ul class="rb-list">
-              <li>Al massimo <strong>1 sostituzione per ruolo</strong> in tutto il torneo</li>
-              <li>Il giocatore entrante deve essere della <strong>stessa nazionale</strong> di quello uscente</li>
+              <li>Il giocatore entrante deve essere dello <strong>stesso club</strong> e dello <strong>stesso ruolo</strong> di quello uscente</li>
               <li>Il <strong>Capitano non può essere sostituito</strong></li>
             </ul>
             <div class="rb-example">
               <span class="rb-example-label">Esempi</span>
               <div class="rb-example-rows">
-                <div>Tolgo <strong>Mbappé</strong> <span class="rb-arrow">→</span> Prendo <strong>Dembélé</strong> <span class="rb-naz">(Francia)</span></div>
-                <div>Tolgo <strong>Gabriel</strong> <span class="rb-arrow">→</span> Prendo <strong>Bremer</strong> <span class="rb-naz">(Brasile)</span></div>
+                <div>Tolgo <strong>Mbappé</strong> <span class="rb-arrow">→</span> Prendo <strong>Vinícius Júnior</strong> <span class="rb-naz">(Real Madrid)</span></div>
+                <div>Tolgo <strong>Saliba</strong> <span class="rb-arrow">→</span> Prendo <strong>Gabriel</strong> <span class="rb-naz">(Arsenal)</span></div>
               </div>
             </div>
             <h3>Finestre temporali</h3>
+            <p>C'è una finestra <strong>dopo ogni giornata della fase campionato</strong> (8 finestre in tutto). Ogni finestra si apre <strong>dal giorno successivo</strong> al termine della giornata e resta aperta <strong>fino all'inizio della prima partita della giornata successiva</strong>. Le sostituzioni fatte nella finestra dopo la <strong>Giornata N</strong> valgono <strong>dalla Giornata N+1</strong> in poi (quelle dopo la Giornata 8 valgono dai Playoff).</p>
+            <h3>Calendario · Fase campionato</h3>
             <ul class="rb-list">
-              <li><strong>Prima finestra</strong> — entro il termine dell'ultima partita della <strong>Giornata 1</strong>. Le sostituzioni diventano effettive <strong>dalla Giornata 2</strong>.</li>
-              <li><strong>Seconda finestra</strong> — entro il termine della <strong>Giornata 2</strong>. Effettive <strong>dalla Giornata 3</strong>.</li>
-              <li><strong>Terza finestra</strong> — entro il termine della <strong>Giornata 3</strong>. Effettive <strong>dalla fase a eliminazione diretta</strong>.</li>
+              <li>1ª giornata: 8-9-10 settembre 2026</li>
+              <li>2ª giornata: 13-14 ottobre 2026</li>
+              <li>3ª giornata: 20-21 ottobre 2026</li>
+              <li>4ª giornata: 3-4 novembre 2026</li>
+              <li>5ª giornata: 24-25 novembre 2026</li>
+              <li>6ª giornata: 8-9 dicembre 2026</li>
+              <li>7ª giornata: 19-20 gennaio 2027</li>
+              <li>8ª giornata: 27 gennaio 2027</li>
             </ul>
-            <p>Le sostituzioni non utilizzate in una finestra restano disponibili in quelle successive, sempre nel limite di <strong>4 totali</strong> (1 per ruolo in totale). <strong>Dalla fase a eliminazione diretta in poi non è più possibile effettuare cambi.</strong></p>
+            <h3>Calendario · Fase a eliminazione diretta</h3>
+            <ul class="rb-list">
+              <li>Spareggi: 16/17 e 23/24 febbraio 2027</li>
+              <li>Ottavi di finale: 9/10 e 16/17 marzo 2027</li>
+              <li>Quarti di finale: 6/7 e 13/14 aprile 2027</li>
+              <li>Semifinali: 27/28 aprile e 4/5 maggio 2027</li>
+              <li>Finale: 5 giugno 2027</li>
+            </ul>
           </article>
 
           <article class="rulebook-section">
@@ -768,7 +781,7 @@
 
             <div class="admin-card" style="grid-column: 1 / -1">
               <h3><span class="material-symbols-outlined">swap_horiz</span> <span data-i18n="admin.subs">Sostituzioni</span></h3>
-              <p class="hint" data-i18n="admin.subs_desc">4 sostituzioni totali per partecipante • al massimo 1 per ruolo in tutto il torneo • stesso ruolo e stessa nazionale.</p>
+              <p class="hint" data-i18n="admin.subs_desc">10 sostituzioni totali per partecipante • nessun vincolo di ruolo • stesso ruolo e stesso club • 8 finestre (una dopo ogni giornata).</p>
               <div id="sostituzioniForm"></div>
             </div>
 
