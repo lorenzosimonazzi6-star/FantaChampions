@@ -4,13 +4,14 @@
 
 // Lista club UCL 2026/27 — 29 confermati; 7 restanti dopo il sorteggio del 27 agosto 2026
 const SQUADRE = [
-  "Arsenal", "Aston Villa", "Atletico Madrid", "Barcellona", "Bayern Monaco",
-  "Betis Siviglia", "Borussia Dortmund", "Bruges", "Como", "Feyenoord",
-  "Galatasaray", "Inter", "Lens", "Lille", "Lipsia",
-  "Liverpool", "Manchester City", "Manchester United", "Napoli", "Porto",
-  "PSG", "PSV", "Real Madrid", "Roma", "Shakhtar Donetsk",
-  "Slavia Praga", "Sporting", "Stoccarda", "Villarreal",
-  // TODO 27/08/2026: aggiungere i 7 club restanti (vincenti playoff)
+  "AEK Athens", "AS Roma", "Arsenal", "Aston Villa", "Atlético Madrid",
+  "Bodø-Glimt", "Borussia Dortmund", "Club Brugge KV", "Como", "FC Barcelona",
+  "FC Bayern München", "FC Porto", "Fenerbahçe", "Feyenoord", "Galatasaray",
+  "Inter", "LASK", "Lille", "Liverpool FC", "Manchester City",
+  "Manchester United", "PSV Eindhoven", "Paris Saint-Germain", "RB Leipzig", "RC Lens",
+  "Real Betis", "Real Madrid", "SK Slavia Praha", "SSC Napoli", "Sabah FK",
+  "Shakhtar Donetsk", "Sporting CP", "VfB Stuttgart", "Viking FK", "Villarreal",
+  "ŠK Slovan Bratislava",
 ];
 const NAZIONALI = SQUADRE; // legacy alias
 
@@ -1881,7 +1882,7 @@ function parseSuperGiocatoriCSV(csv) {
     const parts = lines[i].split(sep).map(s => s.trim());
     if (parts.length <= Math.max(iNome, iSquadra, iRuolo)) { skippati++; continue; }
     const nome    = parts[iNome];
-    const squadra = normalizeNazione(parts[iSquadra]);
+    const squadra = normalizeNazione(parts[iSquadra]).replace(/[\/.#$\[\]]/g, "-").trim();
     const ruolo   = parts[iRuolo].toUpperCase().charAt(0); // prende solo la prima lettera: "POR"→"P"
     if (!nome || !squadra || !RUOLI_VALIDI[ruolo]) { skippati++; continue; }
     if (!db[squadra]) db[squadra] = [];
