@@ -12,29 +12,177 @@ const admin = require("firebase-admin");
 // eventId: trovalo su sofascore.com → URL della partita → ultimo numero
 // Gli eventId UCL 2026/27 saranno disponibili con il calendario ufficiale (agosto 2026)
 const MATCHES = {
-  // ── LEAGUE PHASE ─────────────────────────────────────────
-  "1": [],  // G1 · ~16-17 settembre 2026
-  "2": [],  // G2 · ~1-2 ottobre 2026
-  "3": [],  // G3 · ~22-23 ottobre 2026
-  "4": [],  // G4 · ~5-6 novembre 2026
-  "5": [],  // G5 · ~26-27 novembre 2026
-  "6": [],  // G6 · ~10-11 dicembre 2026
-  "7": [],  // G7 · ~21-22 gennaio 2027
-  "8": [],  // G8 · ~11-12 febbraio 2027
-  // ── PLAYOFF ──────────────────────────────────────────────
-  "9":  [], // Playoff Andata · ~18-19 febbraio 2027
-  "10": [], // Playoff Ritorno · ~25-26 febbraio 2027
-  // ── OTTAVI DI FINALE ─────────────────────────────────────
-  "11": [], // Ottavi Andata · ~4-5 marzo 2027
-  "12": [], // Ottavi Ritorno · ~11-12 marzo 2027
-  // ── QUARTI DI FINALE ─────────────────────────────────────
-  "13": [], // Quarti Andata · ~8-9 aprile 2027
-  "14": [], // Quarti Ritorno · ~15-16 aprile 2027
-  // ── SEMIFINALI ───────────────────────────────────────────
-  "15": [], // Semifinali Andata · ~29-30 aprile 2027
-  "16": [], // Semifinali Ritorno · ~6-7 maggio 2027
-  // ── FINALE ───────────────────────────────────────────────
-  "17": [], // Finale · ~29 maggio 2027
+  // ── LEAGUE PHASE (calendario ufficiale UCL 2026/27, eventId reali) ──
+  "1": [
+    { eventId: "16939050", home: "AEK Athens", away: "LASK", kickoff: "2026-09-08T16:45:00Z" },
+    { eventId: "16938841", home: "Club Brugge KV", away: "Aston Villa", kickoff: "2026-09-08T16:45:00Z" },
+    { eventId: "16938848", home: "Borussia Dortmund", away: "Villarreal", kickoff: "2026-09-08T19:00:00Z" },
+    { eventId: "16938854", home: "FC Porto", away: "Manchester City", kickoff: "2026-09-08T19:00:00Z" },
+    { eventId: "16938991", home: "Lille", away: "Real Betis", kickoff: "2026-09-08T19:00:00Z" },
+    { eventId: "16938768", home: "Real Madrid", away: "Inter", kickoff: "2026-09-08T19:00:00Z" },
+    { eventId: "16938784", home: "FC Barcelona", away: "Feyenoord", kickoff: "2026-09-09T16:45:00Z" },
+    { eventId: "16939028", home: "VfB Stuttgart", away: "Viking FK", kickoff: "2026-09-09T16:45:00Z" },
+    { eventId: "16938798", home: "Liverpool FC", away: "Atlético Madrid", kickoff: "2026-09-09T19:00:00Z" },
+    { eventId: "16938796", home: "Paris Saint-Germain", away: "ŠK Slovan Bratislava", kickoff: "2026-09-09T19:00:00Z" },
+    { eventId: "16938985", home: "SSC Napoli", away: "Arsenal", kickoff: "2026-09-09T19:00:00Z" },
+    { eventId: "16938888", home: "Sporting CP", away: "Galatasaray", kickoff: "2026-09-09T19:00:00Z" },
+    { eventId: "16938963", home: "Fenerbahçe", away: "AS Roma", kickoff: "2026-09-10T16:45:00Z" },
+    { eventId: "16938896", home: "PSV Eindhoven", away: "Shakhtar Donetsk", kickoff: "2026-09-10T16:45:00Z" },
+    { eventId: "16939034", home: "Como", away: "RB Leipzig", kickoff: "2026-09-10T19:00:00Z" },
+    { eventId: "16938858", home: "FC Bayern München", away: "Bodø-Glimt", kickoff: "2026-09-10T19:00:00Z" },
+    { eventId: "16938880", home: "Manchester United", away: "Sabah FK", kickoff: "2026-09-10T19:00:00Z" },
+    { eventId: "16939012", home: "SK Slavia Praha", away: "RC Lens", kickoff: "2026-09-10T19:00:00Z" }
+  ],
+  "2": [
+    { eventId: "16939003", home: "RC Lens", away: "Sporting CP", kickoff: "2026-10-13T16:45:00Z" },
+    { eventId: "16939017", home: "Sabah FK", away: "SK Slavia Praha", kickoff: "2026-10-13T16:45:00Z" },
+    { eventId: "16938807", home: "Arsenal", away: "Lille", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16938789", home: "Atlético Madrid", away: "Manchester United", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16938979", home: "Galatasaray", away: "FC Barcelona", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16938777", home: "Inter", away: "Club Brugge KV", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16938939", home: "RB Leipzig", away: "PSV Eindhoven", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16939021", home: "Viking FK", away: "FC Bayern München", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16938924", home: "Villarreal", away: "SSC Napoli", kickoff: "2026-10-13T19:00:00Z" },
+    { eventId: "16938974", home: "Feyenoord", away: "Como", kickoff: "2026-10-14T16:45:00Z" },
+    { eventId: "16939043", home: "LASK", away: "Liverpool FC", kickoff: "2026-10-14T16:45:00Z" },
+    { eventId: "16938872", home: "AS Roma", away: "Real Madrid", kickoff: "2026-10-14T19:00:00Z" },
+    { eventId: "16938852", home: "Aston Villa", away: "Fenerbahçe", kickoff: "2026-10-14T19:00:00Z" },
+    { eventId: "16938931", home: "Bodø-Glimt", away: "Borussia Dortmund", kickoff: "2026-10-14T19:00:00Z" },
+    { eventId: "16938772", home: "Manchester City", away: "Paris Saint-Germain", kickoff: "2026-10-14T19:00:00Z" },
+    { eventId: "16938869", home: "Real Betis", away: "FC Porto", kickoff: "2026-10-14T19:00:00Z" },
+    { eventId: "16938918", home: "Shakhtar Donetsk", away: "AEK Athens", kickoff: "2026-10-14T19:00:00Z" },
+    { eventId: "16939041", home: "ŠK Slovan Bratislava", away: "VfB Stuttgart", kickoff: "2026-10-14T19:00:00Z" }
+  ],
+  "3": [
+    { eventId: "16938965", home: "Fenerbahçe", away: "SK Slavia Praha", kickoff: "2026-10-20T16:45:00Z" },
+    { eventId: "16939015", home: "Sabah FK", away: "Borussia Dortmund", kickoff: "2026-10-20T16:45:00Z" },
+    { eventId: "16938875", home: "AS Roma", away: "ŠK Slovan Bratislava", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16938855", home: "FC Porto", away: "PSV Eindhoven", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16938800", home: "Liverpool FC", away: "Villarreal", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16938775", home: "Manchester City", away: "AEK Athens", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16938793", home: "Paris Saint-Germain", away: "FC Barcelona", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16938987", home: "SSC Napoli", away: "Bodø-Glimt", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16939025", home: "VfB Stuttgart", away: "Atlético Madrid", kickoff: "2026-10-20T19:00:00Z" },
+    { eventId: "16939033", home: "Como", away: "Manchester United", kickoff: "2026-10-21T16:45:00Z" },
+    { eventId: "16938992", home: "Lille", away: "Galatasaray", kickoff: "2026-10-21T16:45:00Z" },
+    { eventId: "16938853", home: "Aston Villa", away: "Viking FK", kickoff: "2026-10-21T19:00:00Z" },
+    { eventId: "16938843", home: "Club Brugge KV", away: "RC Lens", kickoff: "2026-10-21T19:00:00Z" },
+    { eventId: "16938859", home: "FC Bayern München", away: "Arsenal", kickoff: "2026-10-21T19:00:00Z" },
+    { eventId: "16938778", home: "Inter", away: "Shakhtar Donetsk", kickoff: "2026-10-21T19:00:00Z" },
+    { eventId: "16938870", home: "Real Betis", away: "Feyenoord", kickoff: "2026-10-21T19:00:00Z" },
+    { eventId: "16938770", home: "Real Madrid", away: "RB Leipzig", kickoff: "2026-10-21T19:00:00Z" },
+    { eventId: "16938889", home: "Sporting CP", away: "LASK", kickoff: "2026-10-21T19:00:00Z" }
+  ],
+  "4": [
+    { eventId: "16938982", home: "Galatasaray", away: "VfB Stuttgart", kickoff: "2026-11-03T17:45:00Z" },
+    { eventId: "16938916", home: "Shakhtar Donetsk", away: "Sporting CP", kickoff: "2026-11-03T17:45:00Z" },
+    { eventId: "16938788", home: "Atlético Madrid", away: "FC Bayern München", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16938932", home: "Bodø-Glimt", away: "Lille", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16938783", home: "FC Barcelona", away: "Aston Villa", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16938971", home: "Feyenoord", away: "Inter", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16939046", home: "LASK", away: "ŠK Slovan Bratislava", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16938878", home: "Manchester United", away: "AS Roma", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16938922", home: "Villarreal", away: "Paris Saint-Germain", kickoff: "2026-11-03T20:00:00Z" },
+    { eventId: "16939047", home: "AEK Athens", away: "Real Madrid", kickoff: "2026-11-04T17:45:00Z" },
+    { eventId: "16938962", home: "Fenerbahçe", away: "Liverpool FC", kickoff: "2026-11-04T17:45:00Z" },
+    { eventId: "16938847", home: "Borussia Dortmund", away: "Real Betis", kickoff: "2026-11-04T20:00:00Z" },
+    { eventId: "16938856", home: "FC Porto", away: "SSC Napoli", kickoff: "2026-11-04T20:00:00Z" },
+    { eventId: "16938895", home: "PSV Eindhoven", away: "Club Brugge KV", kickoff: "2026-11-04T20:00:00Z" },
+    { eventId: "16938938", home: "RB Leipzig", away: "Manchester City", kickoff: "2026-11-04T20:00:00Z" },
+    { eventId: "16939005", home: "RC Lens", away: "Como", kickoff: "2026-11-04T20:00:00Z" },
+    { eventId: "16939009", home: "SK Slavia Praha", away: "Arsenal", kickoff: "2026-11-04T20:00:00Z" },
+    { eventId: "16939024", home: "Viking FK", away: "Sabah FK", kickoff: "2026-11-04T20:00:00Z" }
+  ],
+  "5": [
+    { eventId: "16938933", home: "Bodø-Glimt", away: "LASK", kickoff: "2026-11-24T17:45:00Z" },
+    { eventId: "16938980", home: "Galatasaray", away: "Aston Villa", kickoff: "2026-11-24T17:45:00Z" },
+    { eventId: "16938806", home: "Arsenal", away: "Borussia Dortmund", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16939035", home: "Como", away: "AEK Athens", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16938972", home: "Feyenoord", away: "FC Porto", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16938774", home: "Manchester City", away: "SSC Napoli", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16938941", home: "RB Leipzig", away: "RC Lens", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16938769", home: "Real Madrid", away: "PSV Eindhoven", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16939039", home: "ŠK Slovan Bratislava", away: "Real Betis", kickoff: "2026-11-24T20:00:00Z" },
+    { eventId: "16939011", home: "SK Slavia Praha", away: "Villarreal", kickoff: "2026-11-25T17:45:00Z" },
+    { eventId: "16939014", home: "Sabah FK", away: "FC Barcelona", kickoff: "2026-11-25T17:45:00Z" },
+    { eventId: "16938791", home: "Atlético Madrid", away: "Viking FK", kickoff: "2026-11-25T20:00:00Z" },
+    { eventId: "16938840", home: "Club Brugge KV", away: "Liverpool FC", kickoff: "2026-11-25T20:00:00Z" },
+    { eventId: "16938779", home: "Inter", away: "VfB Stuttgart", kickoff: "2026-11-25T20:00:00Z" },
+    { eventId: "16938990", home: "Lille", away: "FC Bayern München", kickoff: "2026-11-25T20:00:00Z" },
+    { eventId: "16938794", home: "Paris Saint-Germain", away: "AS Roma", kickoff: "2026-11-25T20:00:00Z" },
+    { eventId: "16938917", home: "Shakhtar Donetsk", away: "Fenerbahçe", kickoff: "2026-11-25T20:00:00Z" },
+    { eventId: "16938887", home: "Sporting CP", away: "Manchester United", kickoff: "2026-11-25T20:00:00Z" }
+  ],
+  "6": [
+    { eventId: "16939023", home: "Viking FK", away: "Feyenoord", kickoff: "2026-12-08T17:45:00Z" },
+    { eventId: "16938925", home: "Villarreal", away: "Sabah FK", kickoff: "2026-12-08T17:45:00Z" },
+    { eventId: "16939049", home: "AEK Athens", away: "Galatasaray", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938873", home: "AS Roma", away: "Sporting CP", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938850", home: "Aston Villa", away: "Paris Saint-Germain", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938782", home: "FC Barcelona", away: "Manchester City", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938861", home: "FC Bayern München", away: "SK Slavia Praha", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938879", home: "Manchester United", away: "RB Leipzig", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938986", home: "SSC Napoli", away: "Club Brugge KV", kickoff: "2026-12-08T20:00:00Z" },
+    { eventId: "16938871", home: "Real Betis", away: "Como", kickoff: "2026-12-09T17:45:00Z" },
+    { eventId: "16939040", home: "ŠK Slovan Bratislava", away: "Shakhtar Donetsk", kickoff: "2026-12-09T17:45:00Z" },
+    { eventId: "16938805", home: "Arsenal", away: "Real Madrid", kickoff: "2026-12-09T20:00:00Z" },
+    { eventId: "16938846", home: "Borussia Dortmund", away: "Inter", kickoff: "2026-12-09T20:00:00Z" },
+    { eventId: "16939045", home: "LASK", away: "Fenerbahçe", kickoff: "2026-12-09T20:00:00Z" },
+    { eventId: "16938799", home: "Liverpool FC", away: "FC Porto", kickoff: "2026-12-09T20:00:00Z" },
+    { eventId: "16938894", home: "PSV Eindhoven", away: "Atlético Madrid", kickoff: "2026-12-09T20:00:00Z" },
+    { eventId: "16939004", home: "RC Lens", away: "Bodø-Glimt", kickoff: "2026-12-09T20:00:00Z" },
+    { eventId: "16939027", home: "VfB Stuttgart", away: "Lille", kickoff: "2026-12-09T20:00:00Z" }
+  ],
+  "7": [
+    { eventId: "16938930", home: "Bodø-Glimt", away: "Atlético Madrid", kickoff: "2027-01-19T17:45:00Z" },
+    { eventId: "16938981", home: "Galatasaray", away: "Feyenoord", kickoff: "2027-01-19T17:45:00Z" },
+    { eventId: "16939048", home: "AEK Athens", away: "AS Roma", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16938851", home: "Aston Villa", away: "Borussia Dortmund", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16938857", home: "FC Porto", away: "SK Slavia Praha", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16938776", home: "Inter", away: "Liverpool FC", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16938993", home: "Lille", away: "ŠK Slovan Bratislava", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16938771", home: "Real Madrid", away: "LASK", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16939026", home: "VfB Stuttgart", away: "Club Brugge KV", kickoff: "2027-01-19T20:00:00Z" },
+    { eventId: "16938964", home: "Fenerbahçe", away: "Villarreal", kickoff: "2027-01-20T17:45:00Z" },
+    { eventId: "16939016", home: "Sabah FK", away: "SSC Napoli", kickoff: "2027-01-20T17:45:00Z" },
+    { eventId: "16939032", home: "Como", away: "Paris Saint-Germain", kickoff: "2027-01-20T20:00:00Z" },
+    { eventId: "16938877", home: "Manchester United", away: "FC Bayern München", kickoff: "2027-01-20T20:00:00Z" },
+    { eventId: "16938940", home: "RB Leipzig", away: "Shakhtar Donetsk", kickoff: "2027-01-20T20:00:00Z" },
+    { eventId: "16939002", home: "RC Lens", away: "Manchester City", kickoff: "2027-01-20T20:00:00Z" },
+    { eventId: "16938868", home: "Real Betis", away: "Arsenal", kickoff: "2027-01-20T20:00:00Z" },
+    { eventId: "16938886", home: "Sporting CP", away: "FC Barcelona", kickoff: "2027-01-20T20:00:00Z" },
+    { eventId: "16939022", home: "Viking FK", away: "PSV Eindhoven", kickoff: "2027-01-20T20:00:00Z" }
+  ],
+  "8": [
+    { eventId: "16938874", home: "AS Roma", away: "Lille", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938808", home: "Arsenal", away: "Sabah FK", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938790", home: "Atlético Madrid", away: "Fenerbahçe", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938849", home: "Borussia Dortmund", away: "AEK Athens", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938842", home: "Club Brugge KV", away: "Bodø-Glimt", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938785", home: "FC Barcelona", away: "Como", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938860", home: "FC Bayern München", away: "Real Betis", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938973", home: "Feyenoord", away: "RB Leipzig", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16939044", home: "LASK", away: "FC Porto", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938801", home: "Liverpool FC", away: "RC Lens", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938773", home: "Manchester City", away: "Sporting CP", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938897", home: "PSV Eindhoven", away: "VfB Stuttgart", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938795", home: "Paris Saint-Germain", away: "Galatasaray", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16939010", home: "SK Slavia Praha", away: "Aston Villa", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938988", home: "SSC Napoli", away: "Viking FK", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938915", home: "Shakhtar Donetsk", away: "Real Madrid", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16938923", home: "Villarreal", away: "Manchester United", kickoff: "2027-01-27T20:00:00Z" },
+    { eventId: "16939038", home: "ŠK Slovan Bratislava", away: "Inter", kickoff: "2027-01-27T20:00:00Z" }
+  ],
+  // ── ELIMINAZIONE DIRETTA (da popolare quando note le qualificate) ──
+  "9": [], // Playoff Andata
+  "10": [], // Playoff Ritorno
+  "11": [], // Ottavi Andata
+  "12": [], // Ottavi Ritorno
+  "13": [], // Quarti Andata
+  "14": [], // Quarti Ritorno
+  "15": [], // Semifinali Andata
+  "16": [], // Semifinali Ritorno
+  "17": [], // Finale
 };
 
 // Giornate eliminatorie (playoff in avanti): finestra live più lunga per ET + rigori
